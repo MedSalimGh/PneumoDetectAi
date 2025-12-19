@@ -8,7 +8,7 @@
 
 <div align="center">
 
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtZ2t6Y2t6MHZ4Z2t6MHZ4Z2t6MHZ4Z2t6MHZ4Z2t6MHZ4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L2Qdg4YVq8I6f1sM9J/giphy.gif" alt="AI Scan Animation" width="100%" />
+  <img src="./image.png" alt="AI Scan Animation" width="100%" />
 
   > **Advanced AI for Rapid Chest X-Ray Analysis**
   > *Precision, Speed, and Reliability in one powerful tool.*
@@ -97,11 +97,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
   ### Made with 🖤 by Black Star
 
   <p>
-    <a href="https://github.com/yourusername">
+    <a href="https://github.com/MedSalimGh">
       <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
-    </a>
-    <a href="https://linkedin.com/in/yourusername">
-      <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
     </a>
   </p>
   
