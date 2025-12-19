@@ -21,14 +21,13 @@ node -v
 npm -v
 
 echo "Installing Frontend Dependencies..."
-cd frontend
+cd $RENDER_GIT_REPO_DIR/frontend
 npm install
 
 echo "Building Frontend..."
 # Render sets CI=true by default, which treats warnings as errors. We disable that for build.
 CI=false npm run build
-cd ..
 
 echo "Installing Backend Dependencies..."
-cd backend
+cd $RENDER_GIT_REPO_DIR/backend
 pip install -r requirements.txt
