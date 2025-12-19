@@ -37,13 +37,14 @@ const UploadSection = () => {
         formData.append('file', file);
 
         try {
-            // Use environment variable for API URL, fallback to localhost for dev
-            let API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+            // Use environment variable for API URL, fallback to empty string (same server)
+            // Empty string means relative URLs (e.g., /predict instead of http://localhost:8000/predict)
+            let API_URL = import.meta.env.VITE_API_URL || '';
 
             // Paranoid cleanup: ensure string, trim, and strip ANY trailing slashes
             API_URL = String(API_URL).trim().replace(/\/+$/, '');
 
-            console.log("Using API URL:", API_URL); // Debug log
+            console.log("Using API URL:", API_URL || "(relative - same server)"); // Debug log
 
             const response = await axios.post(`${API_URL}/predict`, formData, {
                 headers: {
