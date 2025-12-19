@@ -37,7 +37,7 @@ const UploadSection = () => {
         formData.append('file', file);
 
         try {
-            try:
+
             // Use environment variable for API URL, fallback to localhost for dev
             let API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
             // Remove trailing slash if present to avoid double slashes
