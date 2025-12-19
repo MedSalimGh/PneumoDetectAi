@@ -2,6 +2,9 @@
 # Exit on error
 set -o errexit
 
+# Save the repo root directory (where the script is executed from)
+REPO_ROOT=$(pwd)
+
 STORAGE_DIR=/opt/render/project/.render
 
 if [[ ! -d $STORAGE_DIR/nodejs ]]; then
@@ -21,7 +24,7 @@ node -v
 npm -v
 
 echo "Installing Frontend Dependencies..."
-cd $RENDER_GIT_REPO_DIR/frontend
+cd "$REPO_ROOT/frontend"
 npm install
 
 echo "Building Frontend..."
@@ -29,5 +32,5 @@ echo "Building Frontend..."
 CI=false npm run build
 
 echo "Installing Backend Dependencies..."
-cd $RENDER_GIT_REPO_DIR/backend
+cd "$REPO_ROOT/backend"
 pip install -r requirements.txt
