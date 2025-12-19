@@ -6,16 +6,18 @@ import io
 import numpy as np
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from PIL import Image
 import tensorflow as tf
 import tf_keras
 
 app = FastAPI()
 
-# Enable CORS for frontend communication
+# Enable CORS for frontend communication (still useful for local dev or if hosted separately)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,9 +69,26 @@ def preprocess_image(image: Image.Image):
     image_array = np.expand_dims(image_array, axis=0) # Add batch dimension
     return image_array
 
-@app.get("/")
-def read_root():
-    return {"message": "Pneumonia Detection API is running"}
+# Mount the frontend's static assets
+# Note: Vite builds to frontend/dist. We assume this structure relative to backend/main.py
+frontend_dist = os.path.join(os.path.dirname(BASE_DIR), "frontend", "dist")
+
+if os.path.exists(frontend_dist):
+    # Mount assets (JS, CSS, images)
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    # If the file exists in dist, serve it (e.g. favicon.ico)
+    possible_file = os.path.join(frontend_dist, full_path)
+    if os.path.exists(possible_file) and os.path.isfile(possible_file):
+        return FileResponse(possible_file)
+    
+    # Otherwise, return index.html for SPA routing
+    index_path = os.path.join(frontend_dist, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {"error": "Frontend not built. Run 'npm run build' in frontend directory."}
 
 @app.get("/status")
 def get_status():
