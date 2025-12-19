@@ -37,7 +37,9 @@ const UploadSection = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/predict', formData, {
+            // Use environment variable for API URL, fallback to localhost for dev
+            const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+            const response = await axios.post(`${API_URL}/predict`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
