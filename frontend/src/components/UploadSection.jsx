@@ -37,8 +37,12 @@ const UploadSection = () => {
         formData.append('file', file);
 
         try {
+            try:
             // Use environment variable for API URL, fallback to localhost for dev
-            const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+            let API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+            // Remove trailing slash if present to avoid double slashes
+            API_URL = API_URL.replace(/\/+$/, '');
+
             const response = await axios.post(`${API_URL}/predict`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
