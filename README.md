@@ -14,9 +14,11 @@
   > *Precision, Speed, and Reliability in one powerful tool.*
 
   <h3>
-    <a href="https://deeplearningpresentation.my.canva.site/">🎥 View Project Presentation</a>
+    <a href="https://pneumodetectaix.onrender.com/">🌐 Live Preview</a>
     <span> | </span>
-    <a href="./model_details.pdf">📄 Download Model Report</a>
+    <a href="https://deeplearningpresentation.my.canva.site/">🎥 Project Presentation</a>
+    <span> | </span>
+    <a href="./model_details.pdf">📄 Model Report</a>
   </h3>
 
 </div>
