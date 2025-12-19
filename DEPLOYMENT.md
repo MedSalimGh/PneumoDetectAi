@@ -1,17 +1,17 @@
-# 🚀 Deployment Guide for Render.com
+# 🚀 Deployment Guide for Render.com (Single Service)
 
-This project is set up to be deployed easily on Render. You will need to create two separate services: one for the **Backend** and one for the **Frontend**.
+This guide shows you how to deploy both the **Frontend** and **Backend** as a single **Web Service** on Render. This saves costs and simplifies configuration.
 
 ## 1. Prepare your Repository
 
 Ensure all your code is pushed to your GitHub repository:
 ```bash
 git add .
-git commit -m "Prepare for deployment"
+git commit -m "Configure single-server deployment"
 git push origin main
 ```
 
-## 2. Deploy Backend (Web Service)
+## 2. Create Web Service on Render
 
 1.  Go to **[Render Dashboard](https://dashboard.render.com/)** and click **New +** -> **Web Service**.
 2.  Connect your GitHub repository.
@@ -19,44 +19,28 @@ git push origin main
 
 | Setting | Value |
 | :--- | :--- |
-| **Name** | `pneumonia-backend` (or unique name) |
-| **Root Directory** | `backend` |
+| **Name** | `pneumonia-detection-app` (or your choice) |
 | **Runtime** | **Python 3** |
-| **Build Command** | `pip install -r requirements.txt` |
-| **Start Command** | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
-| **Instance Type** | Free (or Starter if you need more RAM) |
+| **Build Command** | `./render_build.sh` |
+| **Start Command** | `uvicorn backend.main:app --host 0.0.0.0 --port $PORT` |
+| **Instance Type** | Free (or Starter for better performance) |
 
 4.  **Important**: Scroll down to **Advanced** (or Environment Variables) and add:
-    *   **Key**: `PYTHON_VERSION`
-    *   **Value**: `3.10.0` (or `3.11.0`)
-    *   **Key**: `TF_USE_LEGACY_KERAS`
-    *   **Value**: `1`
+
+    | Key | Value |
+    | :--- | :--- |
+    | `PYTHON_VERSION` | `3.10.0` |
+    | `TF_USE_LEGACY_KERAS` | `1` |
 
 5.  Click **Create Web Service**.
-6.  **Wait** for the deploy to finish. Copy the URL (e.g., `https://pneumonia-backend.onrender.com`). **You need this for the frontend!**
 
-## 3. Deploy Frontend (Static Site)
+## 3. How it Works
 
-1.  Go to Dashboard -> **New +** -> **Static Site**.
-2.  Connect the **same** repository.
-3.  Use the following settings:
+*   The **Build Command** (`./render_build.sh`) installs Node.js, builds your React frontend, and then installs Python dependencies.
+*   The **Start Command** runs your FastAPI backend.
+*   The **Backend** is configured to serve the frontend files (from `frontend/dist`) alongside the API.
 
-| Setting | Value |
-| :--- | :--- |
-| **Name** | `pneumonia-frontend` |
-| **Root Directory** | `frontend` |
-| **Build Command** | `npm install && npm run build` |
-| **Publish Directory** | `dist` |
+## 4. Troubleshooting
 
-4.  **Environment Variables**:
-    *   **Key**: `VITE_API_URL`
-    *   **Value**: `https://pneumonia-backend.onrender.com` (The backend URL you copied earlier, **no trailing slash**)
-
-5.  Click **Create Static Site**.
-
-## 4. Final Check
-
-Once both are live:
-1.  Open your **Frontend URL**.
-2.  Upload an image.
-3.  It should successfully talk to your **Backend URL** and give you a prediction!
+*   **Build fails?** Check the logs. If it complains about permission denied for the script, you might need to run `git update-index --chmod=+x render_build.sh` locally and push again, although Render usually handles this.
+*   **"Frontend not built" error?** Ensure the build script ran successfully and created the `frontend/dist` directory.

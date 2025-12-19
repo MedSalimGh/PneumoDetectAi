@@ -19,7 +19,7 @@ Thumbs.db
 .env
 
 # Large Files
-*.h5
+
 *.h6
 *.pb
 saved_model/
