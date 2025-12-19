@@ -87,7 +87,6 @@ def get_status():
     }
 
 @app.post("/predict")
-@app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     global model
     current_model = get_model()
